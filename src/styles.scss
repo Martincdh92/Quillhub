@@ -1,1 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* SELECTORS */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #fafafa;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.flex-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.flex-container-centered {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spaced-around-container {
+  flex-direction: row;
+  justify-content: space-around;
+}

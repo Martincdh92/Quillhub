@@ -1,0 +1,50 @@
+<div class="flex-container-centered">
+  <h1 *ngIf="isAddMode" class="banner">Add book</h1>
+  <h1 *ngIf="!isAddMode" class="banner">Edit book</h1>
+  <form [formGroup]="bookForm">
+    <div class="accordion-section">
+      <div class="flex-container input-container wrap">
+        <div class="input-item">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" />
+            <mat-error *ngIf="bookForm.get('title')?.errors?.required"> This field is required </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="input-item">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Author</mat-label>
+            <input matInput formControlName="author" />
+            <mat-error *ngIf="bookForm.get('author')?.errors?.required"> This field is required </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="input-item">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>ISBN</mat-label>
+            <input matInput formControlName="isbn" />
+            <mat-error *ngIf="bookForm.get('isbn')?.errors?.required"> This field is required </mat-error>
+            <mat-error *ngIf="bookForm.get('isbn')?.hasError('invalidISBN')">Invalid ISBN format.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="input-item">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Genre</mat-label>
+            <input matInput formControlName="genre" />
+            <mat-error *ngIf="bookForm.get('genre')?.errors?.required"> This field is required </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="input-item">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Available copies</mat-label>
+            <input matInput formControlName="availableCopies" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="footer-button">
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

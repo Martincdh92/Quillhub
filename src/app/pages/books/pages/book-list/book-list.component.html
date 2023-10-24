@@ -1,0 +1,80 @@
+<h1>Book list</h1>
+
+<div class="header">
+  <mat-form-field class="form-field width-25" appearance="outline">
+    <mat-label>Filter by title, author or genre</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input />
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    [matMenuTriggerFor]="columnTogglesMenu"
+  >
+    Toggle Columns
+  </button>
+
+  <mat-menu #columnTogglesMenu="matMenu">
+    <div class="column-toggle">
+      <label *ngFor="let column of columnMappings">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          [(ngModel)]="column.visible"
+          >{{ column.header }}</mat-checkbox
+        >
+      </label>
+    </div>
+  </mat-menu>
+</div>
+
+<div *ngIf="loading$ | async; else content" class="spinner">
+  <mat-progress-spinner color="primary" mode="indeterminate">
+  </mat-progress-spinner>
+</div>
+
+<ng-template #content>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container
+        *ngFor="let column of columnMappings"
+        [matColumnDef]="column.field"
+      >
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          [class.hidden]="!column.visible"
+        >
+          {{ column.header }}
+        </th>
+        <td mat-cell *matCellDef="let element" [class.hidden]="!column.visible">
+          <ng-container *ngIf="column.field === 'actions'; else dataColumn">
+            <button mat-icon-button color="primary" (click)="edit(element.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="openDeleteDialog(element)"
+            >
+              <mat-icon>clear</mat-icon>
+            </button>
+          </ng-container>
+          <ng-template #dataColumn>
+            {{ element[column.field] }}
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [length]="dataLength"
+      [pageSize]="10"
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</ng-template>
